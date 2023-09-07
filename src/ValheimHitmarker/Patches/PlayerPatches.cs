@@ -4,40 +4,56 @@ using ValheimHitmarker.MonoBehaviours;
 
 namespace ValheimHitmarker.Patches
 {
-    // TODO Review this file and update to your own requirements, or remove it altogether if not required
-
-    /// <summary>
-    /// Sample Harmony Patch class. Suggestion is to use one file per patched class
-    /// though you can include multiple patch classes in one file.
-    /// Below is included as an example, and should be replaced by classes and methods
-    /// for your mod.
-    /// </summary>
     [HarmonyPatch(typeof(Player))]
-    internal class PlayerPatches
+    internal static class PlayerPatches
     {
         [HarmonyPatch("Start")]
         [HarmonyPostfix]
         private static void Postfix_Start()
         {
-            // Create a new GameObject for hitmarkers
-            GameObject hmObj = new GameObject("Hitmarkers");
+            InstantiateHitmarkers();
+        }
 
-            // Add the BasicHitmarker and CriticalHitmarker components to the GameObject
-            BasicHitmarker bHm = hmObj.AddComponent<BasicHitmarker>();
-            CriticalHitmarker cHm = hmObj.AddComponent<CriticalHitmarker>();
+        [HarmonyPatch("Update")]
+        [HarmonyPostfix]
+        private static void Postfix_Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F8))
+            {
+                InstantiateHitmarkers();
+            }
+        }
 
-            // Initialize the hitmarkers with your mod's values
-            bHm.Init(ValheimHitmarkerPlugin.HitmarkerSize.Value,
-                ValheimHitmarkerPlugin.HitmarkerDisplayDuration.Value,
-                "Basic hitmarker");
+        private static void InstantiateHitmarkers()
+        {
+            GameObject hmObj = GameObject.Find("Hitmarkers");
 
-            cHm.Init(ValheimHitmarkerPlugin.HitmarkerSize.Value,
-                ValheimHitmarkerPlugin.HitmarkerDisplayDuration.Value,
-                "Critical hitmarker");
+            if (hmObj == null)
+            {
+                // Create a new GameObject for hitmarkers
+                hmObj = new GameObject("Hitmarkers");
 
-            // Store the hitmarkers in your plugin for later use
-            ValheimHitmarkerPlugin.hitMarker = bHm;
-            ValheimHitmarkerPlugin.criticalHitMarker = cHm;
+                // Add the BasicHitmarker and CriticalHitmarker components to the GameObject
+                BasicHitmarker bHm = hmObj.AddComponent<BasicHitmarker>();
+                CriticalHitmarker cHm = hmObj.AddComponent<CriticalHitmarker>();
+
+                // Initialize the hitmarkers
+                bHm.Init(ValheimHitmarkerPlugin.HitmarkerSize.Value,
+                    ValheimHitmarkerPlugin.HitmarkerDisplayDuration.Value,
+                    "Basic hitmarker");
+
+                cHm.Init(ValheimHitmarkerPlugin.HitmarkerSize.Value,
+                    ValheimHitmarkerPlugin.HitmarkerDisplayDuration.Value,
+                    "Critical hitmarker");
+
+                ValheimHitmarkerPlugin.hitMarker = bHm;
+                ValheimHitmarkerPlugin.criticalHitMarker = cHm;
+
+                return;
+            }
+
+            GameObject.Destroy(hmObj);
+            InstantiateHitmarkers();
         }
     }
 }
