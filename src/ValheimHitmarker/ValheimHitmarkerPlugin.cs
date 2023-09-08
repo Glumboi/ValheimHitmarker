@@ -20,7 +20,7 @@ namespace ValheimHitmarker
         private const string MyGUID = "com.glumboi.ValheimHitmarker";
 
         public const string PluginName = "ValheimHitmarker";
-        private const string VersionString = "1.0.0";
+        private const string VersionString = "1.1.0";
 
         // Config entry key strings
         // These will appear in the config file created by BepInEx and can also be used
@@ -42,6 +42,7 @@ namespace ValheimHitmarker
 
         public static BasicHitmarker hitMarker;
         public static CriticalHitmarker criticalHitMarker;
+        public static KillMessage killMessage;
 
         /// <summary>
         /// Initialise the configuration settings and patch methods

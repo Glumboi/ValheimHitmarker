@@ -26,6 +26,8 @@ namespace ValheimHitmarker.Patches
                 if (__instance.GetHealth() <= 0)//hit.GetTotalDamage())
                 {
                     ValheimHitmarkerPlugin.criticalHitMarker.ShowHitMarker();
+                    ValheimHitmarkerPlugin.killMessage.ShowKill();
+
                     return;
                 }
 

@@ -2,12 +2,13 @@
 using System.IO;
 using BepInEx;
 using UnityEngine;
+using ValheimHitmarker.Utils;
 
 namespace ValheimHitmarker.MonoBehaviours
 {
     public abstract class HitMarkerDisplay : MonoBehaviour
     {
-        private readonly string hitMarkerImageRelativePath = $"plugins/{ValheimHitmarker.ValheimHitmarkerPlugin.PluginName}/hitmarker.png"; // Relative path to the hit marker image within the plugin folder
+        private readonly string hitMarkerImageRelativePath = $"plugins/{ValheimHitmarkerPlugin.PluginName}/hitmarker.png"; // Relative path to the hit marker image within the plugin folder
         public float hitMarkerSize; // Size of the hit marker in pixels
         public float displayDuration; // How long the hit marker should be visible
         public bool isShowingHitMarker = false;
@@ -112,35 +113,9 @@ namespace ValheimHitmarker.MonoBehaviours
             string pluginPath = Path.GetDirectoryName(Paths.PluginPath);
             string hitMarkerImagePath = Path.Combine(pluginPath, hitMarkerImageRelativePath);
 
-            hitMarkerTexture = LoadTextureFromFile(hitMarkerImagePath);
+            hitMarkerTexture = ModUtils.LoadTextureFromFile(hitMarkerImagePath);
 
             ValheimHitmarkerPlugin.Log.LogInfo($"Loading {hitMarkerName} texture from: {hitMarkerImagePath}");
-        }
-
-        // Load a texture from a file path
-        private Texture2D LoadTextureFromFile(string filePath)
-        {
-            Texture2D texture = new Texture2D(2, 2);
-            byte[] imageData = File.ReadAllBytes(filePath);
-
-            try
-            {
-                if (ImageConversion.LoadImage(texture, imageData, false))
-                {
-                    return texture;
-                }
-                else
-                {
-                    ValheimHitmarkerPlugin.Log.LogError("Failed to load texture from file: " + filePath);
-                    Destroy(texture); // Clean up the texture if loading fails
-                }
-            }
-            catch (Exception e)
-            {
-                ValheimHitmarkerPlugin.Log.LogError("Failed to load texture from file: " + filePath);
-            }
-
-            return null; // Return null to indicate failure
         }
     }
 }

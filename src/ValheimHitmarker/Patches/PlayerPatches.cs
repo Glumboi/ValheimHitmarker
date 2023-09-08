@@ -28,32 +28,29 @@ namespace ValheimHitmarker.Patches
         {
             GameObject hmObj = GameObject.Find("Hitmarkers");
 
-            if (hmObj == null)
-            {
-                // Create a new GameObject for hitmarkers
-                hmObj = new GameObject("Hitmarkers");
+            if (hmObj != null)
+                GameObject.Destroy(hmObj);
 
-                // Add the BasicHitmarker and CriticalHitmarker components to the GameObject
-                BasicHitmarker bHm = hmObj.AddComponent<BasicHitmarker>();
-                CriticalHitmarker cHm = hmObj.AddComponent<CriticalHitmarker>();
+            // Create a new GameObject for hitmarkers
+            hmObj = new GameObject("Hitmarkers");
 
-                // Initialize the hitmarkers
-                bHm.Init(ValheimHitmarkerPlugin.HitmarkerSize.Value,
-                    ValheimHitmarkerPlugin.HitmarkerDisplayDuration.Value,
-                    "Basic hitmarker");
+            // Add the BasicHitmarker and CriticalHitmarker components to the GameObject
+            BasicHitmarker bHm = hmObj.AddComponent<BasicHitmarker>();
+            CriticalHitmarker cHm = hmObj.AddComponent<CriticalHitmarker>();
+            KillMessage kM = hmObj.AddComponent<KillMessage>();
 
-                cHm.Init(ValheimHitmarkerPlugin.HitmarkerSize.Value,
-                    ValheimHitmarkerPlugin.HitmarkerDisplayDuration.Value,
-                    "Critical hitmarker");
+            // Initialize the hitmarkers
+            bHm.Init(ValheimHitmarkerPlugin.HitmarkerSize.Value,
+                ValheimHitmarkerPlugin.HitmarkerDisplayDuration.Value,
+                "Basic hitmarker");
 
-                ValheimHitmarkerPlugin.hitMarker = bHm;
-                ValheimHitmarkerPlugin.criticalHitMarker = cHm;
+            cHm.Init(ValheimHitmarkerPlugin.HitmarkerSize.Value,
+                ValheimHitmarkerPlugin.HitmarkerDisplayDuration.Value,
+                "Critical hitmarker");
 
-                return;
-            }
-
-            GameObject.Destroy(hmObj);
-            InstantiateHitmarkers();
+            ValheimHitmarkerPlugin.hitMarker = bHm;
+            ValheimHitmarkerPlugin.criticalHitMarker = cHm;
+            ValheimHitmarkerPlugin.killMessage = kM;
         }
     }
 }

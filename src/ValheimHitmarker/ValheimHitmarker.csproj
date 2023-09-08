@@ -63,6 +63,12 @@
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>Lib\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>Lib\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>Lib\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Lib\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -71,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KillMessage .cs" />
     <Compile Include="MonoBehaviours\BasicHitmarker.cs" />
     <Compile Include="MonoBehaviours\CriticalHitmarker.cs" />
     <Compile Include="MonoBehaviours\HitmarkerDisplay.cs" />
@@ -84,12 +91,16 @@
     <Content Include="hitmarker.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="kill.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "D:\Steam\steamapps\common\Valheim\BepInEx\plugins\$(TargetName)"
 xcopy /q/y/i "$(TargetPath)" "D:\Steam\steamapps\common\Valheim\BepInEx\plugins\$(TargetName)" /E /H /C
 xcopy /q/y/i "$(TargetDir)hitmarker.png" "D:\Steam\steamapps\common\Valheim\BepInEx\plugins\$(TargetName)" /E /H /C
+xcopy /q/y/i "$(TargetDir)kill.png" "D:\Steam\steamapps\common\Valheim\BepInEx\plugins\$(TargetName)" /E /H /C
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
