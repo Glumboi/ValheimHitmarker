@@ -21,7 +21,7 @@ namespace ValheimHitmarker.Patches
         {
             try
             {
-                if (hit.GetAttacker().GetType() != typeof(Player)) return;
+                if (hit.GetAttacker() != Player.m_localPlayer) return;
 
 #if DEBUG
 
