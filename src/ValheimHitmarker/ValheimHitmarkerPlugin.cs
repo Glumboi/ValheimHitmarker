@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
+using UnityEngine;
 using ValheimHitmarker.MonoBehaviours;
 
 namespace ValheimHitmarker
@@ -20,14 +21,16 @@ namespace ValheimHitmarker
         private const string MyGUID = "com.glumboi.ValheimHitmarker";
 
         public const string PluginName = "ValheimHitmarker";
-        private const string VersionString = "1.1.0";
+        private const string VersionString = "1.2.2.1";
 
         // Config entry key strings
         // These will appear in the config file created by BepInEx and can also be used
         // by the OnSettingsChange event to determine which setting has changed.
         public static string HitmarkerSizeKey = "Hitmarker size";
 
-        public static string HitmarkerDisplayDurationKey = "Int Example Key";
+        public static string HitmarkerDisplayDurationKey = "Hitmarker display duration";
+        public static string RealodHitmarkerTexturesShortcutKey = "Reload hitmarker textures";
+        public static string RealodHitmarkersShortcutKey = "Reload entire hitmarkers";
 
         // Configuration entries. Static, so can be accessed directly elsewhere in code via
         // e.g.
@@ -36,6 +39,10 @@ namespace ValheimHitmarker
         public static ConfigEntry<float> HitmarkerSize;
 
         public static ConfigEntry<float> HitmarkerDisplayDuration;
+
+        public static ConfigEntry<KeyCode> RealodHitmarkerTexturesShortcut;
+
+        public static ConfigEntry<KeyCode> RealodHitmarkersShortcut;
 
         private static readonly Harmony Harmony = new Harmony(MyGUID);
         public static ManualLogSource Log = new ManualLogSource(PluginName);
@@ -62,6 +69,16 @@ namespace ValheimHitmarker
                 HitmarkerDisplayDurationKey,
                 0.5f,
                 new ConfigDescription("Changes the display duration of the Hitmarker"));
+
+            RealodHitmarkerTexturesShortcut = Config.Bind("General",
+                RealodHitmarkerTexturesShortcutKey,
+                KeyCode.F7,
+                new ConfigDescription("Changes the hotkey for reloading the hitmarker textures at runtime"));
+
+            RealodHitmarkersShortcut = Config.Bind("General",
+                RealodHitmarkersShortcutKey,
+                KeyCode.F8,
+                new ConfigDescription("Changes the hotkey for reloading the entire hitmarkers at runtime"));
 
             // Add listeners methods to run if and when settings are changed by the player.
             // TODO Change this code or remove the code if not required.

@@ -18,10 +18,26 @@ namespace ValheimHitmarker.Patches
         [HarmonyPostfix]
         private static void Postfix_Update()
         {
-            if (Input.GetKeyDown(KeyCode.F8))
+            //TODO: Update hotkey keys
+
+            //KeyCode.F7
+            if (Input.GetKeyDown(ValheimHitmarkerPlugin.RealodHitmarkerTexturesShortcut.Value))
+            {
+                ReloadHitmarkerTextures();
+            }
+
+            //KeyCode.F8
+            if (Input.GetKeyDown(ValheimHitmarkerPlugin.RealodHitmarkersShortcut.Value))
             {
                 InstantiateHitmarkers();
             }
+        }
+
+        private static void ReloadHitmarkerTextures()
+        {
+            GameObject hmObj = GameObject.Find("Hitmarkers");
+            hmObj.GetComponent<BasicHitmarker>().ReloadTexture();
+            hmObj.GetComponent<CriticalHitmarker>().ReloadTexture();
         }
 
         private static void InstantiateHitmarkers()

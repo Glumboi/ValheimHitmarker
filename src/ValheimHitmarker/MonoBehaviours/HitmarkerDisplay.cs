@@ -45,11 +45,6 @@ namespace ValheimHitmarker.MonoBehaviours
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F7))
-            {
-                ReloadTexture();
-            }
-
             if (isShowingHitMarker)
             {
                 // Check if it's time to hide the hit marker
